@@ -1,0 +1,12 @@
+sudo: required
+
+language: c
+
+install:
+- sudo apt-get install gcc-avr binutils-avr avr-libc
+
+script:
+- avr-gcc -w -O0 -mmcu=atmega32 -DF_CPU=12000000UL -c -o lcd44780.o lcd44780.c
+- avr-gcc -w -O0 -mmcu=atmega32 -DF_CPU=12000000UL -c -o main.o main.c
+- avr-gcc -w -mmcu=atmega32 lcd44780.o main.o -o main
+- avr-objcopy -O ihex -R .eeprom main prog.hex
